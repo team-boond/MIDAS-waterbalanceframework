@@ -22,11 +22,11 @@ from geojson import FeatureCollection
 
 #Required when I have the full image
 l=os.listdir()
-print(l)
-b3=r.open(l[1])
-b4=r.open(l[2])
-b8=r.open(l[3])
-b11=r.open(l[0])
+#print(l)
+b3=r.open(l[3])
+b4=r.open(l[4])
+b8=r.open(l[5])
+b11=r.open(l[2])
 #use reproject code and use output of reproject in the vect variable
 #check the projection of the shapefile. must be EPSG:32643
 #lat=input("Enter the latitude of the WCS")
@@ -98,11 +98,15 @@ def Evapotranspiration():
     np.unique(ndvi_rc)
     barren=np.count_nonzero(ndvi_rc==1)
     #print('barren',barren*100)
-    barren_et=((barren*100)-5883000)*0.05
+    #barren_et=((barren*100)-5883000)*0.05
+    barren_et=12598100*0.1
     shrubs=np.count_nonzero(ndvi_rc==2)
-    shrubs_et=shrubs*100*0.2
+    #print('shrubs',shrubs*100)
+    #shrubs_et=shrubs*100*0.2
+    shrubs_et=4642200*0.4
     forest=np.count_nonzero(ndvi_rc==3)
-    forest_et=forest*100*0.8
+    #forest_et=forest*100*0.8
+    forest_et=295200*0.8
     #print('forest',forest*100)
     et=[barren_et,shrubs_et,forest_et] #et in m^3
     return et  
@@ -163,17 +167,26 @@ def storage_tanks(storage,area):#village unlinedfarm ponds
 def KT_weir(storage,area):# K T weir
     water_area=0.6*area
     days_monsoon=90
-    days_nonmon=120
     infilteration=(water_area*days_monsoon*1.44/1000)#seepage during monsoon
     #evaporation_monsoon=(water_area*days_monsoon*1.44/1000)#evaporation during monsoon considered as 1.44mm/day
     surface_water=storage-(infilteration)#surface water available after monsoon
     return infilteration,surface_water
+def dam(storage,area):# minor irrigation project
+    water_area=0.6*area*2
+    days_monsoon=90
+    days_nonmon=275
+    infilteration=(water_area*days_monsoon*1.44/1000)#seepage during monsoon
+    infilteration_nonmon=(water_area*days_nonmon*1.44/1000)#seepage during monsoon
+    #evaporation_monsoon=(water_area*days_monsoon*1.44/1000)#evaporation during monsoon considered as 1.44mm/day
+    surface_water=storage-(infilteration)#surface water available after monsoon
+    return infilteration,surface_water,infilteration_nonmon
+
 def WCS(storage):#for ENB, CNB, percolation tanks, Gabion and Recharge shaft
     fillings=2
     infilteration=fillings*storage*.5
     return infilteration
 def CCT(storage):
-    fillings =50#number of rainy
+    fillings =37#number of rainy
     infilteration=fillings*storage*0.1/1000
     soil_mois=fillings*storage*0.55/1000#10% seepage,35% evaporation rest soil moisture
     return infilteration,soil_mois

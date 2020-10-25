@@ -3,9 +3,9 @@ import pandas as pd
 
 
 
-#crop = ['Wheat']
-#sowdates = ['30-11-2020']
-#area_crop = [27]
+crop = ['Wheat']
+sowdates = ['30-11-2020']
+area_crop = [27]
 #print("Hello")
 def cropreq(crop, sowdates, area_crop):#crop_name, sow_date
     tot_requirement=0
@@ -26,24 +26,20 @@ def cropreq(crop, sowdates, area_crop):#crop_name, sow_date
         m_name = ['January','February','March','April','May','June','July','August','September','October','November','December'] 
         year = int(sowdate[6:])
 
-        df = pd.read_csv('days_crop_temp.csv')
-        #df = pd.read_csv('days_crop.csv')
+        df = pd.read_csv('days_crop.csv')
         days_scrop = []#will contain the growth stages of the crop
 
         for j in range(0,len(df)):
-            if df['crop'][j]==name:
-            #if name in df['crop'][j]:
+            if df['crop'][j] == name:
                 days_scrop.append(df['initial_stage'][j])
                 days_scrop.append(df['dev_stage'][j])
                 days_scrop.append(df['mid_stage'][j])
                 days_scrop.append(df['late_stage'][j])
         crop_grow=days_scrop# extract dynamically from the database, this is the growth stage of the crop
         kc_scrop = []
-        df = pd.read_csv('kc_val_temp.csv')
-        #df = pd.read_csv('kc_val.csv')
+        df = pd.read_csv('kc_val.csv')
         for j in range(0,len(df)):
-            if df['crop'][j]==crop[i]:
-            #if crop[i] in df['crop'][j]:
+            if df['crop'][j] == crop[i]:
                 kc_scrop.append(df['initial_stage'][j])
                 kc_scrop.append(df['dev_stage'][j])
                 kc_scrop.append(df['mid_stage'][j])
@@ -117,21 +113,15 @@ def cropreq(crop, sowdates, area_crop):#crop_name, sow_date
         #print(kc_calibrate)
         #loop to calculate the total water required for each crop per month
         #print('**************************************************************************************')
-        #print(kc_calibrate)
-        
-
+        print(kc_calibrate)
         for i in range(0,12):
             if kc_calibrate[i] != 0:
                 monthly_water_req[i] = ((area*10000)*(et_2002[i]/1000)*kc_calibrate[i]*m[y_t][i])/1000
-                if(name=='Tomato'):
-                    monthly_water_req[i]=monthly_water_req[i]-monthly_water_req[i]*0.42
-                if(name=='Cabbage'):
-                    monthly_water_req[i]=monthly_water_req[i]-monthly_water_req[i]*0.68
                 print('Water required for', name,'in', m_name[i], 'is', ((monthly_water_req[i])), 'TCM')
         print('Total water required for', name,'in', area,'hectares of land','is', ((sum(monthly_water_req))), 'TCM')
         #print('**************************************************************************************')
         monthly_list.append(monthly_water_req)
-        tot_requirement=tot_requirement+(sum(monthly_water_req))
+        tot_requirement=tot_requirement+int(sum(monthly_water_req))
         total_list.append(sum(monthly_water_req))
         '''tot_consum = (tot_consum + kc_calibrate[i]*m[y_t][i]*et_2002[i]) #unit = mm
         total_area = tot_consum*area*10000 #unit = mm*m*m
@@ -162,5 +152,5 @@ def getET():
     et_2002 = [3.73, 4.74, 5.71, 6.5, 6.46, 5.27, 4.42, 4.06, 4.37, 4.77, 4.15, 3.78]
     return et_2002
 
-#cropreq(crop,sowdates,area_crop)
+cropreq(crop,sowdates,area_crop)
 #cropreq(['Bajra','Tomato'], ['10-02-2020','10-02-2019'], [1,1])
