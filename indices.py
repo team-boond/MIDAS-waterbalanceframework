@@ -99,11 +99,11 @@ def Evapotranspiration():
     barren=np.count_nonzero(ndvi_rc==1)
     #print('barren',barren*100)
     #barren_et=((barren*100)-5883000)*0.05
-    barren_et=12598100*0.1
+    barren_et=12598100*0.05
     shrubs=np.count_nonzero(ndvi_rc==2)
     #print('shrubs',shrubs*100)
     #shrubs_et=shrubs*100*0.2
-    shrubs_et=4642200*0.4
+    shrubs_et=4642200*0.3
     forest=np.count_nonzero(ndvi_rc==3)
     #forest_et=forest*100*0.8
     forest_et=295200*0.8

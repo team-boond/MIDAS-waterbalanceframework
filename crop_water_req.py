@@ -7,7 +7,7 @@ import pandas as pd
 #sowdates = ['30-11-2020']
 #area_crop = [27]
 #print("Hello")
-def cropreq(crop, sowdates, area_crop):#crop_name, sow_date
+def cropreq(crop, sowdates, area_crop,t):#crop_name, sow_date
     tot_requirement=0
     monthly_list=[]
     total_list=[]
@@ -123,10 +123,14 @@ def cropreq(crop, sowdates, area_crop):#crop_name, sow_date
         for i in range(0,12):
             if kc_calibrate[i] != 0:
                 monthly_water_req[i] = ((area*10000)*(et_2002[i]/1000)*kc_calibrate[i]*m[y_t][i])/1000
-                if(name=='Tomato'):
-                    monthly_water_req[i]=monthly_water_req[i]-monthly_water_req[i]*0.42
-                if(name=='Cabbage'):
-                    monthly_water_req[i]=monthly_water_req[i]-monthly_water_req[i]*0.68
+                if(name=='Tomato' and t=='Rabi'):
+                    monthly_water_req[i]=monthly_water_req[i]-monthly_water_req[i]*0.42*0.9
+                if(name=='Cabbage'and t=='Rabi'):
+                    monthly_water_req[i]=monthly_water_req[i]-monthly_water_req[i]*0.68*0.2
+                if(name=='Onion-dry'and t=='Rabi'):
+                    monthly_water_req[i]=monthly_water_req[i]-monthly_water_req[i]*0.30*0.1
+                if(name=='Carrot'and t=='Rabi'):
+                    monthly_water_req[i]=monthly_water_req[i]-monthly_water_req[i]*0.40*0.2
                 print('Water required for', name,'in', m_name[i], 'is', ((monthly_water_req[i])), 'TCM')
         print('Total water required for', name,'in', area,'hectares of land','is', ((sum(monthly_water_req))), 'TCM')
         #print('**************************************************************************************')

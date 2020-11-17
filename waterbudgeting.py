@@ -181,12 +181,12 @@ def show_water_budget(d,t,v):
         area.append(df['Area'][i])
     
     import crop_water_req as cwr
-    [total_cropreq,monthly_list,total_list]=cwr.cropreq(crop,sow,area)
+    [total_cropreq,monthly_list,total_list]=cwr.cropreq(crop,sow,area,'Kharif')
     df['Monthly list']=monthly_list
     df['Total_list']=total_list
     df.to_csv(home_dir+"Kharif_crops.csv",index=False)
     print('Crop water requirment for grape is in 60 hectares of land is 720TCM')
-    total_cropreq=total_cropreq+720+142.5#considered fodder also for kharif, later change it in main code
+    total_cropreq=total_cropreq+720+142.5#considered fodders also for kharif, later change it in main code
     print()
     print("Total amount of surface water impounded")
     df=pd.read_csv(home_dir+"WCS_details.csv")
@@ -309,7 +309,7 @@ def input_rabi(d,t,v):
     
     import crop_water_req as cwr
     
-    [total_cropreq,monthly_list,total_list]=cwr.cropreq(crop_rabi,sow_rabi,area_rabi)
+    [total_cropreq,monthly_list,total_list]=cwr.cropreq(crop_rabi,sow_rabi,area_rabi,'Rabi')
     df['Monthly list']=monthly_list
     df['Total_list']=total_list
     df.to_csv(home_dir+"Rabi_crops.csv",index=False)
