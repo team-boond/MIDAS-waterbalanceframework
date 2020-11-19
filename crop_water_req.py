@@ -168,6 +168,8 @@ def cropreq(crop, sowdates, area_crop,t):#crop_name, sow_date
 
 #function to extract ET
 def getET():
+    import et_calc as et_dyn
+    #et_2002=et_dyn.evapotrans()
     et_2002 = [3.73, 4.74, 5.71, 6.5, 6.46, 5.27, 4.42, 4.06, 4.37, 4.77, 4.15, 3.78]
     return et_2002
 

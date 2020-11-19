@@ -2,16 +2,16 @@ After konambe pilot:
 Pending work
 
 All manual data entered needs to be coming from the data base for the water balance framework
-calculation. These data get stored in the database once the field worker enters it
+calculation. These data get stored in the database once the field worker enters it----> Mihir
 
 Rainfall
-input-hardcoded, refine-need to be automated(either taken from maharain or satellite)
+input-hardcoded, refine-need to be automated(either taken from maharain or satellite)----> Mihir
 
 Runoff 
 Present: Calculated at a village level thus any runoff entering and exiting village is considered 0
 	 Also computed using strenges table
 Refine: Runoff at a mini watershed level needs to be calculated
-	Newer method needs to be used
+	Newer method needs to be used----> Aishwarya
 
 Domestic requirement: Done
 
@@ -19,7 +19,7 @@ Crop requirement
 Present : FAO data set used for growth stages and crop coefficient and ET0 data taken is of 2002 form India
 	  water portal. Near real time ET0 data formulated but not linked with the main code
 Refine: Local data if present needs to be used and the crop data set needs to be expanded. Near real time ET0
-	needs to be linked with the main code
+	needs to be linked with the main code---> Rishabh
 
 Water conservation structures:
 Present: Water extraction algorithm developed but not combined with the main code. Listing of conservation
@@ -27,12 +27,12 @@ Present: Water extraction algorithm developed but not combined with the main cod
 	 The seepage of most of the structure is considered 50% for the entire season and number of filling to be 
 	 2.
 Refine: Water extraction algorithm linked with the identifying the structures through geo tagged photos of 
-	JYS needs to be done. Determining seepage from the structures at a monthly basis needs to though of.
+	JYS needs to be done.----> Aishwarya Determining seepage from the structures at a monthly basis needs to though of----> Rishabh
 
 Evaporation:
 Present: The evaporation amount deducted is considered to be 30% of the total surface water impounded by 
 	 structures
-Refine: Use the near real time data of the HMS station for better computation
+Refine: Use the near real time data of the HMS station for better computation----> Rishabh
 
 Evapotranspiration
 Present: Village classified into barren, forest and agri lands. The image taken is of the month of October. The
@@ -40,18 +40,29 @@ Present: Village classified into barren, forest and agri lands. The image taken 
 	 also as per the IIT-POCRA JYS water budget assumption
 Refine: The evapration rate for barren land can be taken as the one obtained from HMS station. For shrubs and forest
 	land the ET0 calculated using penmann method can be used but Kc for these areas needs to be computed 
-	from satellite data(if possible). The area under these lands also needs to be calculated on a monthly basis
+	from satellite data(if possible)----> Rishabh. The area under these lands also needs to be calculated on a monthly basis.----> Aishwarya
 
 Soil moisture
 Present: Considered to be a fixed percentage of the total rainfall recieved
-Refine: Needs to be computed through the soil maps and as per the formulations given by ISRO
+Refine: Needs to be computed through the soil maps and as per the formulations given by ISRO----> Rishabh and Aishwarya
 
-Supply side advisories
+Supply side advisories----> Aishwarya and Rishabh
 Present: The algorithm to locate suitable sites for making strutures completed, insights on improving supply side 
 	 manually listed down along with Deshpande sir
 Refine: The algorihtm to locate these sites needs to be initiated. Process to automate supply side insights needs
 	to be thought of
 
 Demand side advisories
-Present:
-Refine: 
+Present: Drip and area reduction
+Refine: Drip, Crop diversification, feeder and economic implications----> Mihir
+
+Groundwater estimation----> Rishabh
+Present: Normalized output by considering the percentages from HMS stations of GSDA in nashik
+Refine: Get the GW level data from GSDA/sarpanch of Konambe/CGWB and the specific yield from CGWB report and compute the annual GW estimation
+
+Water level trend----> Rishabh
+Present: Not done
+Refine: Get the equation from GSDA or get historical data from CGWB website and create the equation.
+Look into MIT's GW paper and see if it can be replicated in our solution
+
+

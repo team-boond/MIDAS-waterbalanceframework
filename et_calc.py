@@ -1,3 +1,4 @@
+import xlrd
 import math
 import calendar
 from datetime import date
@@ -27,7 +28,7 @@ print("aero dynamic term is","{:.2f}".format(aero_d_t))
 import pandas as pd
 import math
 temp_mean = 14.8#26   #Celcius #took sinnar mean temp from worldweatheronline
-
+loc='C:/Users/Rishabh/waterbudgeting/PadaliHMS.xlsx'
 def getn_by_N(cc):    
     df = pd.read_csv('n_by_N(oktas).csv')
     print(math.ceil(cc*5))
@@ -69,31 +70,41 @@ def getLatitude():
 def getElevation(lat):
     #elvation of Konambe village in m
     return 561
-def getTemperature():
-    return[29.5,16]
+def getTemperature(i):
+    wb = xlrd.open_workbook(loc)
+    sheet = wb.sheet_by_index(0)
+    tmax=sheet.cell_value(i+1,5)
+    tmin=sheet.cell_value(i+1,4)
+    #return[29.5,16]
+    return[tmax,tmin]
 
 def evapotrans():
     i=0
-    lat=getLatitude()
-    month=getMonth(i)
-    z=getElevation(lat)
-    [Tmax,Tmin]=getTemperature()
-    Tmean=(Tmax+Tmin)/2
-    ea=get_ea((Tmax+Tmin)/2)
-    ea=ea*0.1#Converting ea in mbar to kPa
-    rn=getRadiation(lat,month,z,Tmax,Tmin,ea)
-    #psychometric constanst
-    gamma=getGamma(z)
-    u2=getWind()
-    #saturation vapor pressure at the mean daily maximum air temperature [kPa]
-    eTmax=geteTmax(Tmax)
-    #saturation vapor pressure at the mean daily minimum air temperature [kPa]
-    eTmin=geteTmax(Tmin)
-    es=getMeanSaturationVP(eTmax,eTmin)
-    #slope vapor pressure curve [kPa/°C]
-    delta=getdelta((Tmax+Tmin)/2)
-    et0=(0.408*delta*(rn)+((gamma*900*u2*(es-ea))/(Tmean+273)))/(delta+gamma*(1+0.34*u2))
-    print("Evapotranspiration is ",et0)
+    et_list=[]
+    while(i<12):
+        lat=getLatitude()
+        month=getMonth(i)
+        z=getElevation(lat)
+        [Tmax,Tmin]=getTemperature(i)
+        Tmean=(Tmax+Tmin)/2
+        ea=get_ea((Tmax+Tmin)/2)
+        ea=ea*0.1#Converting ea in mbar to kPa
+        rn=getRadiation(lat,month,z,Tmax,Tmin,ea)
+        #psychometric constanst
+        gamma=getGamma(z)
+        u2=getWind(i)
+        #saturation vapor pressure at the mean daily maximum air temperature [kPa]
+        eTmax=geteTmax(Tmax)
+        #saturation vapor pressure at the mean daily minimum air temperature [kPa]
+        eTmin=geteTmax(Tmin)
+        es=getMeanSaturationVP(eTmax,eTmin)
+        #slope vapor pressure curve [kPa/°C]
+        delta=getdelta((Tmax+Tmin)/2)
+        et0=(0.408*delta*(rn)+((gamma*900*u2*(es-ea))/(Tmean+273)))/(delta+gamma*(1+0.34*u2))
+        print("Evapotranspiration is ",et0)
+        et_list.append(et0)
+        i=i+1
+    return et_list
 def getdelta(Tmean):
     delta=4098*(0.6108*math.exp((17.27*Tmean)/(Tmean+237.3)))/(math.pow(Tmean+237.3,2))
     return delta
@@ -103,10 +114,13 @@ def geteTmax(Tmax):
 def getMeanSaturationVP(eTmax,eTmin):
     es=(eTmax+eTmin)/2
     return es
-def getWind():
+def getWind(i):
     #wind speed at 10 m above sea level, 10m is taken as per google
     h=10
-    uz=0.447
+    #uz=0.447
+    wb = xlrd.open_workbook(loc)
+    sheet = wb.sheet_by_index(0)
+    uz=sheet.cell_value(i+1,6)
     u2=uz*(4.87/(math.log(67.8*h-5.42)))
     return u2
 def getGamma(z):
