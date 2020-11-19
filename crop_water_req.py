@@ -1,3 +1,8 @@
+#Work pending
+#Introduce the cwr of grapes 
+#link the ET code with this code
+#Create the data base for all the excel sheets
+
 import calendar
 import pandas as pd
 

@@ -1,5 +1,6 @@
 
-
+#Work pending
+#Extract the rainfall from secondary source and do not hard-code it
 
 def rainfall(area):
     #rainfall_amt=725

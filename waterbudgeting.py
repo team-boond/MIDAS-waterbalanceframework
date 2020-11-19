@@ -140,7 +140,6 @@ def enter_primary_Details():
 
 def show_water_budget(d,t,v):
     print()
-    wb=0
     village_area=getArea(v,t,d)
     import total_rainfall as tr
     rainfall_avail=tr.rainfall(village_area)
@@ -268,7 +267,8 @@ def show_water_budget(d,t,v):
 
     #surface_water_kharif=surface_water_kharif-1501+500#this is temporary, just subtracting konambe dam surface water
 
-
+#Pending work
+#Extract near real time evaporation data from the HMS excel sheet.
     surface_water_kharif=surface_water_kharif-(surface_water_kharif*0.30)
     #et=0.3*rainfall_avail
     print()
@@ -314,6 +314,7 @@ def input_rabi(d,t,v):
     df['Total_list']=total_list
     df.to_csv(home_dir+"Rabi_crops.csv",index=False)
     print('Total rabi crop requirement is ',total_cropreq,'TCM')
+
 def getStorageTemp(name):
     n=['Earthen nala bund','K T weir','Cement nala bund','Cement nala bund forest','Percolation tank','Percolation tank forest','Gabion','Recharge shaft','Konambe dam']
     cap=[0.467,1.05,13.045,7.88,25.15,3.88,.345,1,1512]#in TCM,here for recharge shaft the avg tcm has been taken from doc given by deshpande sir+

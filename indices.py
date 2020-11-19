@@ -1,3 +1,5 @@
+#Pending work in the water extent function
+
 # -*- coding: utf-8 -*-
 """
 Created on Wed Sep 16 20:15:10 2020
@@ -113,7 +115,12 @@ def Evapotranspiration():
 
 
 
-#water 
+#Pending work
+#Extract the geo-tagged structure list from JYS database
+#Extract lat, long and capacity of these structure.
+#Verify whether at these lat long water body is being detected.
+#If yes then return the extent of water body area else return the capacity as
+#obtained from JYS database
 def extent_of_water_area(latcoordinate, longcoordinates):
 
     clipb3=r.open('b3_clip.tif')
@@ -155,7 +162,8 @@ def extent_of_water_area(latcoordinate, longcoordinates):
     
     return water_area
 
-
+#Future work
+#Monthly calculation of seepage and evaporation
 def storage_tanks(storage,area):#village unlinedfarm ponds
     water_area=0.6*area
     days_monsoon=90

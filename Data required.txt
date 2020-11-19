@@ -1,0 +1,19 @@
+Observation well water trend data/observation well trend equation
+Mini watersheds dileanation data
+Soil maps 
+Market rates at different mandi for different crops
+Area wise cropping list/Soil wise crop data/list of crops sold in a paticular market
+Drip irrigation data
+Yield increase due to drip
+Local growth stages and crop coefficient
+
+To determine the water trend on our own we need:
+Porosity of the aqufier
+Dug well depth bgl
+Dug well radius	for thiem equation
+Average water table level
+HP of the pump inserted in the dug well 
+water table rise in post monsoon period as compared to the pre-monsoon period
+Pumping rate in m3
+Hydraulic conductivity
+Inital head conditions for inner and outer region
