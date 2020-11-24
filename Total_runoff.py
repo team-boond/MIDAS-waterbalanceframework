@@ -30,7 +30,8 @@ def runoff():
     area_ha1=area_m2_1*0.0001
     area_ha2=area_m2_2*0.0001
     area_ha3=area_m2_3*0.0001
-    #print('area',area_ha1+area_ha2+area_ha3)
+    #print('area',area_ha1+area_ha2)
+    worthy_area=area_ha1+area_ha2
     #coeff for rainfall 775mm
     runoff1=area_ha1*1.0791
     runoff2=area_ha2*1.6186
@@ -40,6 +41,6 @@ def runoff():
     #runoff2=area_ha2*1.3878
     #runoff3=area_ha3*1.8496
     tot_runoff=runoff1+runoff2+runoff3
-    return tot_runoff
+    return tot_runoff,worthy_area
 
 #r=runoff()

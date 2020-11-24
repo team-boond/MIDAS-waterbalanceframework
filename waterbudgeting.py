@@ -144,7 +144,7 @@ def show_water_budget(d,t,v):
     import total_rainfall as tr
     rainfall_avail=tr.rainfall(village_area)
     import Total_runoff as run
-    tot_runoff=run.runoff()
+    [tot_runoff,worthy_area]=run.runoff()
     
     #tot_runoff=1000#dummy needs to be calculated
     infilteration_village=rainfall_avail-tot_runoff
@@ -192,17 +192,17 @@ def show_water_budget(d,t,v):
     surface_water_kharif=0
     
     tot_infilteration=0#Total seepage done even during rabi
-    
+    total_infilteration_nonmon=0
     
 
     for i in range(0,len(df)):
         if(df['Structure name'][i]=='K T weir'):
-            [infilteration,surface_water]=ind.KT_weir(df['Storage capacity'][i],df['Area'][i])
+            [infilteration,surface_water,infilteration_nonmon]=ind.KT_weir(df['Storage capacity'][i],df['Area'][i])
             infilteration=infilteration*df['Number'][i]
             surface_water=surface_water*df['Number'][i]
-            
+            infilteration_nonmon=infilteration_nonmon*df['Number'][i]
             surface_water_kharif=surface_water_kharif+surface_water
-            
+            total_infilteration_nonmon=total_infilteration_nonmon+infilteration_nonmon
             print("The seepage from ",df['Number'][i]," ", df['Structure name'][i]," during the monsoon is ",infilteration,"TCM")
             print("The surface water in ",df['Number'][i]," ", df['Structure name'][i]," after the monsoon is ",surface_water,"TCM")
             
@@ -247,7 +247,7 @@ def show_water_budget(d,t,v):
     print("Total amount of surface water impounded by lined farm ponds")
     df=pd.read_csv(home_dir+"farmponds_lined.csv")
     surface_water=df['Capacity'][0]*df['Lined farm pond'][0]
-    
+    #surface_water=surface_water-((df['Area'][0]*1900/1000)/1000)
     print("The surface water available in ",df['Lined farm pond'][0]," lined farm ponds after the monsoon is ",surface_water,"TCM")
     #print('u-lined',usable_water)
     surface_water_kharif=surface_water_kharif+surface_water
@@ -255,7 +255,7 @@ def show_water_budget(d,t,v):
     print()
     print("Total amount of surface water impounded by non lined farm ponds")
     df=pd.read_csv(home_dir+"farmponds.csv")
-    [infilteration,surface_water]=ind.storage_tanks(df['Capacity'][0],df['Area'][0])
+    [infilteration,surface_water,infilteration_nonmon]=ind.storage_tanks(df['Capacity'][0],df['Area'][0])
     
     print("The surface water available after seepage in ",df['Non Lined farm pond'][0]," Non lined farm ponds after the monsoon is ",(df['Non Lined farm pond'][0]*(surface_water)),"TCM")
     print("The seepage from ",df['Non Lined farm pond'][0]," Non lined farm ponds after the monsoon is ",(df['Non Lined farm pond'][0]*(infilteration)),"TCM")
@@ -264,11 +264,13 @@ def show_water_budget(d,t,v):
     surface_water_kharif=surface_water_kharif+(surface_water*df['Non Lined farm pond'][0])
     
     infilteration_village=infilteration_village+(infilteration*df['Non Lined farm pond'][0])
-
+    total_infilteration_nonmon=total_infilteration_nonmon+(infilteration_nonmon*df['Non Lined farm pond'][0])
+    #print("total nonmon", total_infilteration_nonmon)
     #surface_water_kharif=surface_water_kharif-1501+500#this is temporary, just subtracting konambe dam surface water
 
 #Pending work
 #Extract near real time evaporation data from the HMS excel sheet.
+
     surface_water_kharif=surface_water_kharif-(surface_water_kharif*0.30)
     #et=0.3*rainfall_avail
     print()
@@ -293,8 +295,24 @@ def show_water_budget(d,t,v):
     print()
     a=int(input("Press 1 to continue with rabi planning"))
     if(a==1):
-        input_rabi(d,t,v)
+        rabi_req=input_rabi(d,t,v)
+    annual_gross_draft=(.1*total_cropreq)+sum_domreq+rabi_req-(surface_water_kharif-total_infilteration_nonmon)-(.1*rabi_req)
+    print("Annual gross draft ",annual_gross_draft)
+    groundwater=groundwater_avail(worthy_area)
+    print('Groundwater available in the village', groundwater)
+    stage_of_development=(annual_gross_draft/groundwater)*100
+    print('Stage of groundwater developement is ',stage_of_development,'%')
+#Ground water availabilty
+def groundwater_avail(worthy_area):
+    pre_monlevel=13.5
+    post_monlevel=6
+    specific_yield=0.02
+    groundwater=specific_yield*(pre_monlevel-post_monlevel)*worthy_area*10
 
+    return groundwater
+    #print(surface_water_kharif,' Surface water')
+    #print(sum_domreq,' Domestic requirement')
+    
 def input_rabi(d,t,v):
     parent_dir="C:/Users/Rishabh/waterbudgeting/"
     home_dir=parent_dir+d+"/"+t+"/"+v+"/"
@@ -314,7 +332,7 @@ def input_rabi(d,t,v):
     df['Total_list']=total_list
     df.to_csv(home_dir+"Rabi_crops.csv",index=False)
     print('Total rabi crop requirement is ',total_cropreq,'TCM')
-
+    return total_cropreq
 def getStorageTemp(name):
     n=['Earthen nala bund','K T weir','Cement nala bund','Cement nala bund forest','Percolation tank','Percolation tank forest','Gabion','Recharge shaft','Konambe dam']
     cap=[0.467,1.05,13.045,7.88,25.15,3.88,.345,1,1512]#in TCM,here for recharge shaft the avg tcm has been taken from doc given by deshpande sir+

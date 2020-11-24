@@ -25,10 +25,10 @@ from geojson import FeatureCollection
 #Required when I have the full image
 l=os.listdir()
 #print(l)
-b3=r.open(l[3])
-b4=r.open(l[4])
-b8=r.open(l[5])
-b11=r.open(l[2])
+b3=r.open(l[5])
+b4=r.open(l[6])
+b8=r.open(l[7])
+b11=r.open(l[4])
 #use reproject code and use output of reproject in the vect variable
 #check the projection of the shapefile. must be EPSG:32643
 #lat=input("Enter the latitude of the WCS")
@@ -167,25 +167,28 @@ def extent_of_water_area(latcoordinate, longcoordinates):
 def storage_tanks(storage,area):#village unlinedfarm ponds
     water_area=0.6*area
     days_monsoon=90
-    
+    days_nonmon=120
+    #evaporation_monsoon=(water_area*1900/1000)/1000
     infilteration=(water_area*days_monsoon*1.44/1000)/1000#seepage during monsoon
-    
+    infilteration_nonmon=(water_area*days_nonmon*1.44/1000)/1000
     surface_water=storage-(infilteration)
-    return infilteration,surface_water
+    return infilteration,surface_water,infilteration_nonmon
 def KT_weir(storage,area):# K T weir
     water_area=0.6*area
     days_monsoon=90
+    days_nonmon=120
     infilteration=(water_area*days_monsoon*1.44/1000)#seepage during monsoon
-    #evaporation_monsoon=(water_area*days_monsoon*1.44/1000)#evaporation during monsoon considered as 1.44mm/day
+    #evaporation_monsoon=(water_area*1900/1000)#evaporation during monsoon considered as 1.44mm/day
+    infilteration_nonmon=(water_area*days_nonmon*1.44/1000)
     surface_water=storage-(infilteration)#surface water available after monsoon
-    return infilteration,surface_water
+    return infilteration,surface_water,infilteration_nonmon
 def dam(storage,area):# minor irrigation project
     water_area=0.6*area*2
     days_monsoon=90
     days_nonmon=275
     infilteration=(water_area*days_monsoon*1.44/1000)#seepage during monsoon
     infilteration_nonmon=(water_area*days_nonmon*1.44/1000)#seepage during monsoon
-    #evaporation_monsoon=(water_area*days_monsoon*1.44/1000)#evaporation during monsoon considered as 1.44mm/day
+    #evaporation_monsoon=(water_area*1900/1000)#evaporation during monsoon considered as 1.44mm/day
     surface_water=storage-(infilteration)#surface water available after monsoon
     return infilteration,surface_water,infilteration_nonmon
 

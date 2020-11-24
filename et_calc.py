@@ -73,8 +73,8 @@ def getElevation(lat):
 def getTemperature(i):
     wb = xlrd.open_workbook(loc)
     sheet = wb.sheet_by_index(0)
-    tmax=sheet.cell_value(i+1,5)
-    tmin=sheet.cell_value(i+1,4)
+    tmax=sheet.cell_value(i+1,5)*2
+    tmin=sheet.cell_value(i+1,4)*2
     #return[29.5,16]
     return[tmax,tmin]
 
@@ -101,7 +101,7 @@ def evapotrans():
         #slope vapor pressure curve [kPa/°C]
         delta=getdelta((Tmax+Tmin)/2)
         et0=(0.408*delta*(rn)+((gamma*900*u2*(es-ea))/(Tmean+273)))/(delta+gamma*(1+0.34*u2))
-        print("Evapotranspiration is ",et0)
+        #print("Evapotranspiration is ",et0)
         et_list.append(et0)
         i=i+1
     return et_list
@@ -120,7 +120,7 @@ def getWind(i):
     #uz=0.447
     wb = xlrd.open_workbook(loc)
     sheet = wb.sheet_by_index(0)
-    uz=sheet.cell_value(i+1,6)
+    uz=sheet.cell_value(i+1,6)*2
     u2=uz*(4.87/(math.log(67.8*h-5.42)))
     return u2
 def getGamma(z):

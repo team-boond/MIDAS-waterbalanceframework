@@ -2,7 +2,7 @@ After konambe pilot:
 Pending work
 
 All manual data entered needs to be coming from the data base for the water balance framework
-calculation. These data get stored in the database once the field worker enters it----> Mihir
+calculation. These data get stored in the database once the field worker enters it----> Mihir and Atharva
 
 Rainfall
 input-hardcoded, refine-need to be automated(either taken from maharain or satellite)----> Mihir
@@ -10,16 +10,16 @@ input-hardcoded, refine-need to be automated(either taken from maharain or satel
 Runoff 
 Present: Calculated at a village level thus any runoff entering and exiting village is considered 0
 	 Also computed using strenges table
-Refine: Runoff at a mini watershed level needs to be calculated
-	Newer method needs to be used----> Aishwarya
+Refine: Runoff at a mini watershed level needs to be calculated ---->Aishwarya
+	Newer method needs to be used----> Rishabh and Aishwarya (Need to talk to Suresh kulkarni sir)
 
 Domestic requirement: Done
 
 Crop requirement
 Present : FAO data set used for growth stages and crop coefficient and ET0 data taken is of 2002 form India
-	  water portal. Near real time ET0 data formulated but not linked with the main code
+	  water portal. Near real time ET0 data formulated but not linked with the main code. Grapes hardcoded
 Refine: Local data if present needs to be used and the crop data set needs to be expanded. Near real time ET0
-	needs to be linked with the main code---> Rishabh
+	needs to be linked with the main code---> Rishabh (Need to talk to Suresh kulkarni sir). and Sachin sir Grapes-Rishabh and Mihir
 
 Water conservation structures:
 Present: Water extraction algorithm developed but not combined with the main code. Listing of conservation
@@ -28,6 +28,7 @@ Present: Water extraction algorithm developed but not combined with the main cod
 	 2.
 Refine: Water extraction algorithm linked with the identifying the structures through geo tagged photos of 
 	JYS needs to be done.----> Aishwarya Determining seepage from the structures at a monthly basis needs to though of----> Rishabh
+	Need to add canal water into it too.(Talk to Suresh sir and Belsare sir)
 
 Evaporation:
 Present: The evaporation amount deducted is considered to be 30% of the total surface water impounded by 
@@ -58,7 +59,12 @@ Refine: Drip, Crop diversification, feeder and economic implications----> Mihir
 
 Groundwater estimation----> Rishabh
 Present: Normalized output by considering the percentages from HMS stations of GSDA in nashik
-Refine: Get the GW level data from GSDA/sarpanch of Konambe/CGWB and the specific yield from CGWB report and compute the annual GW estimation
+Refine: Get the GW level data from GSDA/sarpanch of Konambe/CGWB and the specific yield from CGWB report and compute the annual GW estimation.
+Procedure: 
+Step 1: Determine the area with slope area not being more than 15% 
+Step 2: Specific yield of the area is 0.2
+Step 3: 2019 data from WRIS. Use water table fluctuation method as mentioned in GEC guidelines
+
 
 Water level trend----> Rishabh
 Present: Not done
