@@ -71,4 +71,16 @@ Present: Not done
 Refine: Get the equation from GSDA or get historical data from CGWB website and create the equation.
 Look into MIT's GW paper and see if it can be replicated in our solution
 
+Incorporate the canal water in your model:
+Recharge by canal area = Seepage factor(Hectare meters/day/million square meters) * wetted area in million square meters * number of days canal is in operation
+avg depth of flow = 0.6 * design depth of the flow of that canal segment
+Data required:
+1) Seepage factor
+2) Length of each canal segment
+3) Design depth of flow meters
+4) Base width in meters
+5) Side slope in degrees
+6) Number of days the canal segment is in operation
 
+wetted area = [[2*0.6*Design depth/sin(side slope)]+base width]*length/10^6
+recharge=wetted area*seepage factor*number of days
