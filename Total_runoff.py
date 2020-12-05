@@ -7,9 +7,21 @@ import copy
 import elevation
 import richdem as rd
 
-def runoff():
+def runoff(village_name):
 #    return 788
-    dem_path=os.path.join(os.getcwd(),'Konambe_dem_clipped.tif')
+    coeff1=0
+    coeff2=0
+    coeff3=0
+    if(village_name=='Konambe'):
+        dem_path=os.path.join(os.getcwd(),'Konambe_dem_clipped.tif')
+        coeff1=1.0791
+        coeff2=1.6186
+        coeff3=2.1583
+    else:
+        dem_path=os.path.join(os.getcwd(),'Kanhur_dem_fill/Kanhur_dem_fill.tif')
+        coeff1=0.7201
+        coeff2=1.0802
+        coeff3=1.4403
     village_dem=rd.LoadGDAL(dem_path,no_data=-9999)
     rd.FillDepressions(village_dem, epsilon=False, in_place=False)
     arr=rd.TerrainAttribute(village_dem,attrib='slope_percentage',zscale=1/111120)
@@ -33,9 +45,9 @@ def runoff():
     #print('area',area_ha1+area_ha2)
     worthy_area=area_ha1+area_ha2
     #coeff for rainfall 775mm
-    runoff1=area_ha1*1.0791
-    runoff2=area_ha2*1.6186
-    runoff3=area_ha3*2.1583
+    runoff1=area_ha1*coeff1
+    runoff2=area_ha2*coeff2
+    runoff3=area_ha3*coeff3
     #coeff for rainfall 725mm
     #runoff1=area_ha1*1.0791
     #runoff2=area_ha2*1.3878

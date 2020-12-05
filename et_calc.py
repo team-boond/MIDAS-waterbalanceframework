@@ -12,23 +12,23 @@ altitude = 169    # m above sea level
 
 ea = 16.8             #table 18 #wrt mean air temperature
 ed = ea * humidity*0.01   # unit is m bar # *0.01 when humidity in percentage
-print("ed is",ed)
+#print("ed is",ed)
 
 diff_ea_ed = ea - ed    #difference between ea and ed # m bar
-print("ea - ed =",diff_ea_ed)
+#print("ea - ed =",diff_ea_ed)
 
 fu = 0.27*(1+wind_speed_pd*0.01)    # wind velocity at height of 2m
-print("fu is",fu)
+#print("fu is",fu)
 
 w = 0.625    #table 21 #wrt temp and eleveation #related weighing factor
 
 aero_d_t = (1-w)*fu*diff_ea_ed   #final aero dynamic term 
-print("aero dynamic term is","{:.2f}".format(aero_d_t))
+#print("aero dynamic term is","{:.2f}".format(aero_d_t))
 
 import pandas as pd
 import math
 temp_mean = 14.8#26   #Celcius #took sinnar mean temp from worldweatheronline
-loc='C:/Users/Rishabh/waterbudgeting/PadaliHMS.xlsx'
+loc='C:/Users/Rishabh/waterbudgeting/PadaliHMSfinal.xlsx'
 def getn_by_N(cc):    
     df = pd.read_csv('n_by_N(oktas).csv')
     print(math.ceil(cc*5))
@@ -44,13 +44,13 @@ def get_ea(temp_mean):
         ea = ((read2*df['ea'][read2])/(read1*df['ea'][read1]))*temp_mean
         return ea
 ea = get_ea(temp_mean)
-print(ea)
+#print(ea)
 
 n_by_N = getn_by_N(2.8)
-print(n_by_N)
+#print(n_by_N)
 cc = 7.8
 df = pd.read_csv('n_by_N(oktas).csv')
-print(math.ceil(cc*5))
+#print(math.ceil(cc*5))
 df['n_by_N'][math.ceil(cc*5)]
 
 def getMonth(i):
@@ -73,8 +73,8 @@ def getElevation(lat):
 def getTemperature(i):
     wb = xlrd.open_workbook(loc)
     sheet = wb.sheet_by_index(0)
-    tmax=sheet.cell_value(i+1,5)*2
-    tmin=sheet.cell_value(i+1,4)*2
+    tmax=sheet.cell_value(i+1,5)
+    tmin=sheet.cell_value(i+1,4)
     #return[29.5,16]
     return[tmax,tmin]
 
@@ -120,7 +120,7 @@ def getWind(i):
     #uz=0.447
     wb = xlrd.open_workbook(loc)
     sheet = wb.sheet_by_index(0)
-    uz=sheet.cell_value(i+1,6)*2
+    uz=sheet.cell_value(i+1,6)
     u2=uz*(4.87/(math.log(67.8*h-5.42)))
     return u2
 def getGamma(z):
@@ -158,4 +158,4 @@ def getRadiation(lat,month,z,Tmax,Tmin,ea):
     #Net radiation
     Rn=Rns-Rnl
     return Rn
-evapotrans()
+#evapotrans()
