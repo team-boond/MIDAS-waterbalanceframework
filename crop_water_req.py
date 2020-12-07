@@ -17,37 +17,37 @@ def cropreq(crop, sowdates, area_crop,t,village):#crop_name, sow_date
     monthly_list=[]
     total_list=[]
     for i in range(0,len(crop)):
-        df = pd.read_csv('days_crop.csv')
+        #df = pd.read_csv('days_crop.csv')
         name = crop[i]
         sowdate = sowdates[i]
         area = area_crop[i]
         monthly_water_req = [0.0 for i in range(0,12)]
 
-        et_2002=getET()#function to extract the Et value
+        et_2002=getET(village)#function to extract the Et value
         
         #The month days and month name is stored for printing purposes
         m=[[31,28,31,30,31,30,31,31,30,31,30,31], [31,29,31,30,31,30,31,31,30,31,30,31]]#write a code for leap year too
         m_name = ['January','February','March','April','May','June','July','August','September','October','November','December'] 
         year = int(sowdate[6:])
 
-        #df = pd.read_csv('days_crop_max.csv')
-        df = pd.read_csv('days_crop_min.csv')
+        df = pd.read_csv('days_crop_max.csv')
+        #df = pd.read_csv('days_crop_min.csv')
         days_scrop = []#will contain the growth stages of the crop
 
         for j in range(0,len(df)):
-            #if df['crop'][j]==name:
-            if name in df['crop'][j]:
+            if df['crop'][j]==name:
+            #if name in df['crop'][j]:
                 days_scrop.append(df['initial_stage'][j])
                 days_scrop.append(df['dev_stage'][j])
                 days_scrop.append(df['mid_stage'][j])
                 days_scrop.append(df['late_stage'][j])
         crop_grow=days_scrop# extract dynamically from the database, this is the growth stage of the crop
         kc_scrop = []
-        #df = pd.read_csv('kc_val_temp.csv')
-        df = pd.read_csv('kc_val.csv')
+        df = pd.read_csv('kc_val_temp.csv')
+        #df = pd.read_csv('kc_val.csv')
         for j in range(0,len(df)):
-            #if df['crop'][j]==crop[i]:
-            if crop[i] in df['crop'][j]:
+            if df['crop'][j]==crop[i]:
+            #if crop[i] in df['crop'][j]:
                 kc_scrop.append(df['initial_stage'][j])
                 kc_scrop.append(df['dev_stage'][j])
                 kc_scrop.append(df['mid_stage'][j])
@@ -128,13 +128,13 @@ def cropreq(crop, sowdates, area_crop,t,village):#crop_name, sow_date
 
         for i in range(0,12):
             if kc_calibrate[i] != 0:
-                if(start_month==i+1):
-                    monthly_water_req[i] = (((area*10000)*(et_2002[i]/1000)*kc_calibrate[i]*m[y_t][i])/1000)*0.10
+                #if(start_month==i+1):
+                    #monthly_water_req[i] = (((area*10000)*(et_2002[i]/1000)*kc_calibrate[i]*m[y_t][i])/1000)*0.10
                     #monthly_water_req[i] = (((area*10000)*(et_2002[i]/1000)*kc_calibrate[i])/1000)*0.1
                 #elif(i==c):
                 #    monthly_water_req[i] = (((area*10000)*(et_2002[i]/1000)*kc_calibrate[i]*m[y_t][i])/1000)*0.10
-                else:
-                    monthly_water_req[i] = ((area*10000)*(et_2002[i]/1000)*kc_calibrate[i]*m[y_t][i])/1000
+                #else:
+                monthly_water_req[i] = ((area*10000)*(et_2002[i]/1000)*kc_calibrate[i]*m[y_t][i])/1000
                     #monthly_water_req[i] = ((area*10000)*(et_2002[i]/1000)*kc_calibrate[i])/1000
                 if(name=='Tomato' and t=='Rabi' and village=='Konambe'):
                     monthly_water_req[i]=monthly_water_req[i]-monthly_water_req[i]*0.42*0.9
@@ -175,9 +175,9 @@ def cropreq(crop, sowdates, area_crop,t,village):#crop_name, sow_date
     #end of function
 
 #function to extract ET
-def getET():
+def getET(village):
     import et_calc as et_dyn
-    et_2002=et_dyn.evapotrans()
+    et_2002=et_dyn.evapotrans(village)
     #et_2002 = [3.73, 4.74, 5.71, 6.5, 6.46, 5.27, 4.42, 4.06, 4.37, 4.77, 4.15, 3.78]
     #et_2019 = [32, 27, 10.1, 10.5, 2.6, 55.7, 80.2, 81.4, 77.5, 77.4, 55, 34.5]
     return et_2002
@@ -229,4 +229,4 @@ def kc_correction(name,kc_scrop,days_scrop,sow_date):
 
     #print(start_date_mid)
 
-kc_correction('Maize-sweet',[0.4,0.8,1.15,1],[20,30,50,10],'10-06-20')
+#kc_correction('Maize-sweet',[0.4,0.8,1.15,1],[20,30,50,10],'10-06-20')

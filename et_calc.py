@@ -64,35 +64,44 @@ def getMonth(i):
         y_t=0
     month=m[y_t]
     return month[i]
-def getLatitude():
+def getLatitude(village):
     #latitude in degrees of Sinnar
-    return 19.84
-def getElevation(lat):
+    if(village == 'Konambe'):
+        return 19.84
+    elif(village == 'Kanhur'):
+        return 18.8250
+def getElevation(village):
     #elvation of Konambe village in m
-    return 561
-def getTemperature(i):
+    if(village == 'Konambe'):
+        return 561
+    elif(village == 'Kanhur'):
+        return 560 #pune district
+def getTemperature(i,village):
     wb = xlrd.open_workbook(loc)
-    sheet = wb.sheet_by_index(0)
+    if(village=='Konambe'):
+        sheet = wb.sheet_by_index(0)
+    elif(village=='Kanhur'):
+        sheet = wb.sheet_by_index(2)
     tmax=sheet.cell_value(i+1,5)
     tmin=sheet.cell_value(i+1,4)
     #return[29.5,16]
     return[tmax,tmin]
 
-def evapotrans():
+def evapotrans(village):
     i=0
     et_list=[]
     while(i<12):
-        lat=getLatitude()
+        lat=getLatitude(village)
         month=getMonth(i)
-        z=getElevation(lat)
-        [Tmax,Tmin]=getTemperature(i)
+        z=getElevation(village)
+        [Tmax,Tmin]=getTemperature(i,village)
         Tmean=(Tmax+Tmin)/2
         ea=get_ea((Tmax+Tmin)/2)
         ea=ea*0.1#Converting ea in mbar to kPa
         rn=getRadiation(lat,month,z,Tmax,Tmin,ea)
         #psychometric constanst
         gamma=getGamma(z)
-        u2=getWind(i)
+        u2=getWind(i,village)
         #saturation vapor pressure at the mean daily maximum air temperature [kPa]
         eTmax=geteTmax(Tmax)
         #saturation vapor pressure at the mean daily minimum air temperature [kPa]
@@ -114,14 +123,19 @@ def geteTmax(Tmax):
 def getMeanSaturationVP(eTmax,eTmin):
     es=(eTmax+eTmin)/2
     return es
-def getWind(i):
+def getWind(i,village):
     #wind speed at 10 m above sea level, 10m is taken as per google
     h=10
     #uz=0.447
     wb = xlrd.open_workbook(loc)
-    sheet = wb.sheet_by_index(0)
-    uz=sheet.cell_value(i+1,6)
-    u2=uz*(4.87/(math.log(67.8*h-5.42)))
+    if(village=='Konambe'):
+        sheet = wb.sheet_by_index(0)
+        uz=sheet.cell_value(i+1,6)
+    elif(village=='Kanhur'):
+        sheet = wb.sheet_by_index(2)
+        uz=sheet.cell_value(i+1,6)
+        
+    u2=(uz*(4.87/(math.log(67.8*h-5.42))))*0.2788
     return u2
 def getGamma(z):
     #atmosperic pressure
@@ -158,4 +172,4 @@ def getRadiation(lat,month,z,Tmax,Tmin,ea):
     #Net radiation
     Rn=Rns-Rnl
     return Rn
-#evapotrans()
+#evapotrans('Kanhur')

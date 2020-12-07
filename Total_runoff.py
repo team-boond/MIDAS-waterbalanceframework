@@ -19,9 +19,9 @@ def runoff(village_name):
         coeff3=2.1583
     else:
         dem_path=os.path.join(os.getcwd(),'Kanhur_dem_fill/Kanhur_dem_fill.tif')
-        coeff1=0.7201
-        coeff2=1.0802
-        coeff3=1.4403
+        coeff1=0.4293
+        coeff2=0.6443
+        coeff3=0.8521
     village_dem=rd.LoadGDAL(dem_path,no_data=-9999)
     rd.FillDepressions(village_dem, epsilon=False, in_place=False)
     arr=rd.TerrainAttribute(village_dem,attrib='slope_percentage',zscale=1/111120)

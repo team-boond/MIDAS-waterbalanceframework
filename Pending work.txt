@@ -84,3 +84,10 @@ Data required:
 
 wetted area = [[2*0.6*Design depth/sin(side slope)]+base width]*length/10^6
 recharge=wetted area*seepage factor*number of days
+
+
+Atal Bhujal Yojna- 15th December
+Konambe – Testimonials, Water level scenarios based on advisories, advisories based on least rainfall year, water budget document, revenue generation alternate. 
+Shastrinagar – Data collection(Piyush or Bedwal or open source), water body identification, Advisories, water level scenarios based on advisories, water budget document.
+CARD
+Kanhur mesai -  land use classification, water budget document, advisories, meeting on progress and co-creation.
