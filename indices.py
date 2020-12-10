@@ -101,17 +101,14 @@ def Evapotranspiration():
     barren=np.count_nonzero(ndvi_rc==1)
     #print('barren',barren*100)
     #barren_et=((barren*100)-5883000)*0.05
-    #barren_et=12598100*0.05#konambe
-    barren_et=2700000*0.05#kanhur
+    barren_et=12598100*0.05
     shrubs=np.count_nonzero(ndvi_rc==2)
     #print('shrubs',shrubs*100)
     #shrubs_et=shrubs*100*0.2
-    #shrubs_et=4642200*0.3#konambe
-    shrubs_et=5200000*0.4#kanhur
+    shrubs_et=4642200*0.3
     forest=np.count_nonzero(ndvi_rc==3)
     #forest_et=forest*100*0.8
-    #forest_et=295200*0.8#Konambe
-    forest_et=224000*0.8#Kanhur
+    forest_et=295200*0.8
     #print('forest',forest*100)
     et=[barren_et,shrubs_et,forest_et] #et in m^3
     return et  
